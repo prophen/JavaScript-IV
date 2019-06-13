@@ -38,7 +38,7 @@ class Person {
   }
 
   speak() {
-    console.log(`Hello my name is ${this.name}, I am from ${this.location}`)
+    return (`Hello my name is ${this.name}, I am from ${this.location}`)
   }
 }
 
@@ -65,14 +65,14 @@ class Instructor extends Person {
   }
 
   demo(subject) {
-    console.log(`Today we are learning about ${subject}`)
+    return (`Today we are learning about ${subject}`)
   }
   
   grade(student, subject) {
-    console.log(`${student.name} receives a perfect score on ${subject}`)
+    return (`${student.name} receives a perfect score on ${subject}`)
   }
   speak() {
-    console.log(this.catchPhrase)
+    return (this.catchPhrase)
   }
 }
 
@@ -101,18 +101,17 @@ class Student extends Person {
 
   listsSubjects() {
     const favSubjects = this.favSubjects
-    const formattedList = favSubjects.map(function(subject) {
-      return `• ${subject} \n`
-    })
-    console.log(`${this.name}'s Favorite Subjects \n`, ...formattedList)
+    const formattedList = favSubjects.map(subject => `• ${subject}`).join('\n')
+    
+    return `${this.name}'s Favorite Subjects \n${formattedList}`
   }
 
   PRAssignment(subject) {
-    console.log(`${this.name} has submitted a PR for ${subject}`);
+    return `${this.name} has submitted a PR for ${subject}`
   }
 
   sprintChallenge(subject){
-    console.log(`${this.name} has begun a sprint challenge on ${subject}`);
+    return `${this.name} has begun a sprint challenge on ${subject}`
   }
 }
 
@@ -137,11 +136,11 @@ class ProjectManager extends Instructor {
   }
 
   standup(channel) {
-    console.log(`${this.name} announces to ${channel}, @channel standy times!​​​​​`)
+    return `${this.name} announces to ${channel}, @channel standy times!​​​​​`
   }
 
   debugsCode(student, subject) {
-    console.log(`${this.name} debugs ${student.name}'s code on ${subject}`);
+    return `${this.name} debugs ${student.name}'s code on ${subject}`
   }
 }
 
