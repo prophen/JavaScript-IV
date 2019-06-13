@@ -69,7 +69,10 @@ class Instructor extends Person {
   }
   
   grade(student, subject) {
-    `${student.name} receives a perfect score on ${subject}`
+    console.log(`${student.name} receives a perfect score on ${subject}`)
+  }
+  speak() {
+    console.log(this.catchPhrase)
   }
 }
 
@@ -98,7 +101,10 @@ class Student extends Person {
 
   listsSubjects() {
     const favSubjects = this.favSubjects
-    console.log(...favSubjects)
+    const formattedList = favSubjects.map(function(subject) {
+      return `• ${subject} \n`
+    })
+    console.log(`${this.name}'s Favorite Subjects \n`, ...formattedList)
   }
 
   PRAssignment(subject) {
@@ -138,3 +144,160 @@ class ProjectManager extends Instructor {
     console.log(`${this.name} debugs ${student.name}'s code on ${subject}`);
   }
 }
+
+// My mom is a Person
+
+const mom = new Person({
+  name: 'Ida',
+  location: 'Sacramento, CA',
+  age: 'timeless'
+})
+
+// Instructor Instances
+
+const marguel = new Instructor({
+  name: 'Marguel',
+  age: 'Maybe 26',
+  gradClassName: 'WEBPT2',
+  favInstructor: 'Me?',
+  location: 'California',
+  specialty: 'React',
+  favLanguage: 'JavaScript, Python, Elm etc.',
+  catchPhrase: "Practice Flex Zombies !!!",
+});
+
+const brandon = new Instructor({
+  name: 'Brandon',
+  age: '34',
+  gradClassName: 'WEB18',
+  favInstructor: 'Professor Lambda',
+  location: 'Maine',
+  specialty: 'Redux',
+  favLanguage: 'JavaScript, C++, Python.',
+  catchPhrase: "You shall not pass!",
+});
+
+const instructors = [marguel,brandon]
+
+// Student Instances
+
+const nisa = new Student({
+  name: 'Nisa',
+  age: 25,
+  location: 'Ohio',
+  previousBackground: 'Debt Collector',
+  className: 'Web21',
+  favSubjects: ['Html', 'CSS', 'JavaScript'],
+});
+
+const joscelyn = new Student({
+  name: "Joscelyn",
+  age: 29,
+  location: "California",
+  previousBackground: "English teacher",
+  className: 'Web21',
+  favSubjects: ["Computer Science", "Philosophy", "English"],
+});
+const isaiah = new Student({
+  name: 'Isaiah',
+  age: 18,
+  location: 'Florida',
+  previousBackground: 'High School last month',
+  className: 'Web21',
+  favSubjects: ['Html', 'CSS', 'JavaScript'],
+});
+const kevin = new Student({
+  name: "Kevin",
+  age: 28,
+  location: "California",
+  previousBackground: "Table Games Dealer",
+  className: "WEB21",
+  favSubjects: ['Html', 'CSS', 'JavaScript'],
+});
+
+const students = [joscelyn, nisa, isaiah, kevin]
+
+// ProjectManager Instances
+
+const mary = new ProjectManager({
+  name: 'Mary',
+  age: '24',
+  gradClassName: 'WEB18',
+  favInstructor: 'Josh Knell',
+  location: 'New York',
+  specialty: 'Express and Node.js',
+  favLanguage: 'Javascript',
+  catchPhrase: "That looks AWESOME",
+});
+
+const christian = new ProjectManager({
+  name: 'Christian',
+  age: '32',
+  gradClassName: 'WEB18',
+  favInstructor: 'Every Instructor in Lambda',
+  location: 'Seattle, WA',
+  specialty: 'Data Structures & Algorithms',
+  favLanguage: 'JavaScript',
+  catchPhrase: "Dont forget your daily commit.",
+});
+
+const pat = new ProjectManager({
+  name: 'Pat',
+  age: '38',
+  gradClassName: 'WEB18',
+  favInstructor: 'Brett Madrid',
+  location: 'Petaluma, Ca',
+  specialty: 'Empathetic to the struggle of Redux',
+  favLanguage: 'JavaScript',
+  catchPhrase: 'Lets google that together.'
+});
+
+const projectManagers = [pat, christian, mary]
+
+// Log it out - Printing out all of the object properties and methods
+
+function getRandomInteger(max = students.length - 1) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
+function printOutLogs(arr) {
+  arr.forEach(person => {
+    if (person instanceof ProjectManager) {
+      console.log(`Project Manager ${person.name} \n`, person)
+      console.log(person.speak())
+      console.log(person.standup('Web21'))
+      console.log(person.debugsCode(students[getRandomInteger()], students[0].favSubjects[getRandomInteger(2)]))
+      return
+    }
+    if (person instanceof Instructor) {
+      console.log(`Instructor ${person.name} \n`, person)
+      console.log(person.speak())
+      console.log(person.demo('Preprocessing I'))
+      console.log(person.grade(students[getRandomInteger()], 'Preprocessing I'))
+      return
+    }
+    if (person instanceof Student) {
+      console.log(`Student ${person.name} \n`, person)
+      console.log(person.speak())
+      console.log(person.listsSubjects())
+      console.log(person.PRAssignment('JavaScript I'))
+      console.log(person.sprintChallenge('Advanced CSS Sprint Challenge'))
+      return
+    }
+    
+  });
+}
+
+// Person
+console.log(mom);
+console.log(mom.speak());
+
+// Instructor 
+printOutLogs(instructors)
+
+// Student 
+printOutLogs(students)
+
+// Project Manager 
+printOutLogs(projectManagers)
+
