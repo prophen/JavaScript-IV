@@ -40,7 +40,7 @@ class Person {
   }
   returnUniqueProps() {
     return`
-    == Person ${this.name} ==
+    == ✨ Person ${this.name} ✨ ==
     Age: ${this.age}
     Location: ${this.location}
     speak(): ${this.speak()}
@@ -82,7 +82,7 @@ class Instructor extends Person {
     == Instructor ${this.name} ==
     Specialty: ${this.specialty}
     Favorite Language: ${this.favLanguage}
-    Catch Phrase: ${this.catchPhrase}
+    Catch Phrase: "${this.catchPhrase}"
     Demo: ${this.demo('CSS')}
     Grade: ${this.grade(students[getRandomInteger()],'Preprocessing II')} `
   }
