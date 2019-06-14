@@ -11,15 +11,13 @@ Project Managers - extensions of Instructors
 
 IMPORTANT - You'll need to create 2 - 3 objects for each class and test them according to their unique Attributes. For example:
 
-const fred = new Instructor({
-  name: 'Fred',
-  location: 'Bedrock',
-  age: 37,
-  favLanguage: 'JavaScript',
-  specialty: 'Front-end',
-  catchPhrase: `Don't forget the homies`
-});
+
 */
+function getRandomInteger(max = students.length - 1) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+let students, subjects, projectManagers, instructors, people = []
+
 
 /*
 #### Person
@@ -39,6 +37,14 @@ class Person {
 
   speak() {
     return (`Hello my name is ${this.name}, I am from ${this.location}`)
+  }
+  returnUniqueProps() {
+    return`
+    == Person ${this.name} ==
+    Age: ${this.age}
+    Location: ${this.location}
+    speak(): ${this.speak()}
+    `
   }
 }
 
@@ -71,8 +77,14 @@ class Instructor extends Person {
   grade(student, subject) {
     return (`${student.name} receives a perfect score on ${subject}`)
   }
-  speak() {
-    return (this.catchPhrase)
+  returnUniqueProps() {
+    return   `
+    == Instructor ${this.name} ==
+    Specialty: ${this.specialty}
+    Favorite Language: ${this.favLanguage}
+    Catch Phrase: ${this.catchPhrase}
+    Demo: ${this.demo('CSS')}
+    Grade: ${this.grade(students[getRandomInteger()],'Preprocessing II')} `
   }
 }
 
@@ -88,7 +100,7 @@ class Instructor extends Person {
 * Student has the following methods:
   * `listsSubjects` a method that logs out all of the student's favoriteSubjects one by one.
   * `PRAssignment` a method that receives a subject as an argument and logs out that the `student.name has submitted a PR for {subject}`
-  * `sprintChallenge` similar to PRAssignment but logs out `student.name has begun sprint challenge on {subject}`
+  * `debugsCode` similar to PRAssignment but logs out `student.name has begun sprint challenge on {subject}`
   */
 
 class Student extends Person {
@@ -100,18 +112,27 @@ class Student extends Person {
   }
 
   listsSubjects() {
-    const favSubjects = this.favSubjects
-    const formattedList = favSubjects.map(subject => `• ${subject}`).join('\n')
+    const formattedList = this.favSubjects.map(subject => `        • ${subject}`).join('\n')
     
-    return `${this.name}'s Favorite Subjects \n${formattedList}`
+    return `\n      ${this.name}'s Favorite Subjects: \n${formattedList}`
   }
 
   PRAssignment(subject) {
     return `${this.name} has submitted a PR for ${subject}`
   }
 
-  sprintChallenge(subject){
+  debugsCode(subject){
     return `${this.name} has begun a sprint challenge on ${subject}`
+  }
+  returnUniqueProps() {
+    return   `
+    == Student ${this.name} ==
+    Previous: ${this.previousBackground}
+    Class: ${this.className}
+    Favorite Subjects: ${this.favSubjects}
+    listSubjects(): ${this.listsSubjects()}
+    PRAssignment(): ${this.PRAssignment("JavaScript III")}
+    debugsCode(): ${this.debugsCode("Advanced CSS")}`
   }
 }
 
@@ -142,6 +163,15 @@ class ProjectManager extends Instructor {
   debugsCode(student, subject) {
     return `${this.name} debugs ${student.name}'s code on ${subject}`
   }
+
+  returnUniqueProps() {
+    return   `
+    == Project Manager ${this.name} ==
+    Grad Class Name: ${this.gradClassName}
+    Favorite Instructor: ${this.favInstructor}
+    standUp(): ${this.standup("Web 21")}
+    debugsCode(): ${this.debugsCode(students[getRandomInteger()], subjects[getRandomInteger(subjects.length -1)])}`
+  }
 }
 
 // My mom is a Person
@@ -163,7 +193,7 @@ const marguel = new Instructor({
   specialty: 'React',
   favLanguage: 'JavaScript, Python, Elm etc.',
   catchPhrase: "Practice Flex Zombies !!!",
-});
+})
 
 const brandon = new Instructor({
   name: 'Brandon',
@@ -174,9 +204,18 @@ const brandon = new Instructor({
   specialty: 'Redux',
   favLanguage: 'JavaScript, C++, Python.',
   catchPhrase: "You shall not pass!",
-});
+})
 
-const instructors = [marguel,brandon]
+const fred = new Instructor({
+  name: 'Fred',
+  location: 'Bedrock',
+  age: 37,
+  favLanguage: 'JavaScript',
+  specialty: 'Front-end',
+  catchPhrase: `Don't forget the homies`
+})
+
+instructors = [marguel, brandon, fred]
 
 // Student Instances
 
@@ -187,7 +226,7 @@ const nisa = new Student({
   previousBackground: 'Debt Collector',
   className: 'Web21',
   favSubjects: ['Html', 'CSS', 'JavaScript'],
-});
+})
 
 const joscelyn = new Student({
   name: "Joscelyn",
@@ -196,7 +235,8 @@ const joscelyn = new Student({
   previousBackground: "English teacher",
   className: 'Web21',
   favSubjects: ["Computer Science", "Philosophy", "English"],
-});
+})
+
 const isaiah = new Student({
   name: 'Isaiah',
   age: 18,
@@ -204,7 +244,8 @@ const isaiah = new Student({
   previousBackground: 'High School last month',
   className: 'Web21',
   favSubjects: ['Html', 'CSS', 'JavaScript'],
-});
+})
+
 const kevin = new Student({
   name: "Kevin",
   age: 28,
@@ -214,7 +255,8 @@ const kevin = new Student({
   favSubjects: ['Html', 'CSS', 'JavaScript'],
 });
 
-const students = [joscelyn, nisa, isaiah, kevin]
+students = [joscelyn, nisa, isaiah, kevin]
+subjects = students.reduce((acc, student) => acc.concat(student.favSubjects), [])
 
 // ProjectManager Instances
 
@@ -227,7 +269,7 @@ const mary = new ProjectManager({
   specialty: 'Express and Node.js',
   favLanguage: 'Javascript',
   catchPhrase: "That looks AWESOME",
-});
+})
 
 const christian = new ProjectManager({
   name: 'Christian',
@@ -238,7 +280,7 @@ const christian = new ProjectManager({
   specialty: 'Data Structures & Algorithms',
   favLanguage: 'JavaScript',
   catchPhrase: "Dont forget your daily commit.",
-});
+})
 
 const pat = new ProjectManager({
   name: 'Pat',
@@ -249,54 +291,12 @@ const pat = new ProjectManager({
   specialty: 'Empathetic to the struggle of Redux',
   favLanguage: 'JavaScript',
   catchPhrase: 'Lets google that together.'
-});
+})
 
-const projectManagers = [pat, christian, mary]
+projectManagers = [pat, christian, mary]
 
-// Log it out - Printing out all of the object properties and methods
+// Log it out - Printing out the object properties and methods
 
-function getRandomInteger(max = students.length - 1) {
-  return Math.floor(Math.random() * Math.floor(max));
-}
-
-function printOutLogs(arr) {
-  arr.forEach(person => {
-    if (person instanceof ProjectManager) {
-      console.log(`Project Manager ${person.name} \n`, person)
-      console.log(person.speak())
-      console.log(person.standup('Web21'))
-      console.log(person.debugsCode(students[getRandomInteger()], students[0].favSubjects[getRandomInteger(2)]))
-      return
-    }
-    if (person instanceof Instructor) {
-      console.log(`Instructor ${person.name} \n`, person)
-      console.log(person.speak())
-      console.log(person.demo('Preprocessing I'))
-      console.log(person.grade(students[getRandomInteger()], 'Preprocessing I'))
-      return
-    }
-    if (person instanceof Student) {
-      console.log(`Student ${person.name} \n`, person)
-      console.log(person.speak())
-      console.log(person.listsSubjects())
-      console.log(person.PRAssignment('JavaScript I'))
-      console.log(person.sprintChallenge('Advanced CSS Sprint Challenge'))
-      return
-    }
-    
-  });
-}
-
-// Person
-console.log(mom);
-console.log(mom.speak());
-
-// Instructor 
-printOutLogs(instructors)
-
-// Student 
-printOutLogs(students)
-
-// Project Manager 
-printOutLogs(projectManagers)
+people = projectManagers.concat(instructors, students, mom) 
+people.forEach(person => console.log(person.returnUniqueProps()))
 
